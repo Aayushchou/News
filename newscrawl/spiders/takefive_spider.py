@@ -1,13 +1,15 @@
-from scrapy.crawler import CrawlerProcess
 import scrapy
+from scrapy.crawler import CrawlerProcess
 
 
 class SpiderML(scrapy.Spider):
-    name = "ml_spider"
+    """Parses the articles on the takefive homepage"""
+    name = "takefive_spider"
 
     start_urls = ["https://takefive-stopfraud.org.uk/news/"]
 
     def parse(self, response, **kwargs):
+        """Parses the links for the articles from the homepage"""
         links = response.css(
             "article:nth-child(n) > header > h2 > a::attr(href)"
         ).extract()
@@ -16,6 +18,7 @@ class SpiderML(scrapy.Spider):
             yield response.follow(url=link, callback=self.parse_article)
 
     def parse_article(self, response):
+        """Parses the header, date and text for each article"""
         header = response.css("h1::text").extract()[-1].lower()
         date = response.css("article > div.post__date > time::text").extract()[-1].lower()
         text = (
@@ -26,8 +29,8 @@ class SpiderML(scrapy.Spider):
                 ).extract()
                 if t != "\n"
             )
-            .strip("\n")
-            .strip().lower()
+                .strip("\n")
+                .strip().lower()
         )
         yield {
             'header': header,
