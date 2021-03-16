@@ -16,8 +16,8 @@ class SpiderML(scrapy.Spider):
             yield response.follow(url=link, callback=self.parse_article)
 
     def parse_article(self, response):
-        header = response.css("h1::text").extract()[-1]
-        date = response.css("article > div.post__date > time::text").extract()[-1]
+        header = response.css("h1::text").extract()[-1].lower()
+        date = response.css("article > div.post__date > time::text").extract()[-1].lower()
         text = (
             " ".join(
                 t
@@ -27,7 +27,7 @@ class SpiderML(scrapy.Spider):
                 if t != "\n"
             )
             .strip("\n")
-            .strip()
+            .strip().lower()
         )
         yield {
             'header': header,
