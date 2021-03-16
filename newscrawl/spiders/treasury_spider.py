@@ -2,16 +2,16 @@ import scrapy
 from scrapy.crawler import CrawlerProcess
 
 
-class TakeFiveSpider(scrapy.Spider):
+class TreasurySpider(scrapy.Spider):
     """Parses the articles on the takefive homepage"""
-    name = "takefive_spider"
+    name = "treasury_spider"
 
-    start_urls = ["https://takefive-stopfraud.org.uk/news/"]
+    start_urls = ["https://home.treasury.gov/news/press-releases"]
 
     def parse(self, response, **kwargs):
         """Parses the links for the articles from the homepage"""
         links = response.css(
-            "article:nth-child(n) > header > h2 > a::attr(href)"
+            "div:nth-child(n) > h3 > a::attr(href)"
         ).extract()
 
         for link in links:
@@ -19,13 +19,13 @@ class TakeFiveSpider(scrapy.Spider):
 
     def parse_article(self, response):
         """Parses the header, date and text for each article"""
-        header = response.css("h1::text").extract()[-1].lower()
-        date = response.css("article > div.post__date > time::text").extract()[-1].lower()
+        header = response.css("h2 > span::text").extract()
+        date = response.css("time::attr(datetime)").extract_first()
         text = (
             " ".join(
                 t
                 for t in response.xpath(
-                    "//*[@id='content']/section/article/div[@class='entry-content stack']//text()"
+                    "//*[@id='block-hamilton-content']/article/div/div[2]//text()"
                 ).extract()
                 if t != "\n"
             )
@@ -42,8 +42,8 @@ class TakeFiveSpider(scrapy.Spider):
 if __name__ == "__main__":
     process = CrawlerProcess(settings={
         "FEEDS": {
-            "takefive.json": {"format": "json"}
+            "treasury.json": {"format": "json"}
         },
     })
-    process.crawl(TakeFiveSpider)
+    process.crawl(TreasurySpider)
     process.start()
