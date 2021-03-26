@@ -1,0 +1,7 @@
+website,link_css,header_css,date_css,text_xpath
+takefive-stopfraud.org.uk,article:nth-child(n) > header > h2 > a::attr(href),header > div > div > h1::text,article > div.post__date > time::text,//*[@id='content']/section/article/div[@class='entry-content stack']//text()
+home.treasury.gov,div:nth-child(n) > h3 > a::attr(href),h2 > span::text,time::attr(datetime),//*[@id='block-hamilton-content']/article/div/div[2]//text()
+www.fca.org.uk,div.content-list-item a::attr(href),h1.page-header > span::text,time::attr(datetime),/html/body/div[2]/div[2]/section/div[2]/div[2]/div/article/div//text()
+www.dfsa.ae,a[href^='https://www.dfsa.ae/news/']::attr(href),.info-block-wrap > h1::text,.info-block-wrap > h6::text,/html/body/div[2]/div[2]/div/div[3]/div/div/div//text()
+
+
