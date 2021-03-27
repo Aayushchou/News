@@ -29,6 +29,6 @@ def main(url=None):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-u", "--url", required=False, help="URL of the website we want to parse", default='https://www.dfsa.ae/news')
+    parser.add_argument("-u", "--url", required=False, help="URL of the website we want to parse", default='https://www.whitehouse.gov')
     args = vars(parser.parse_args())
     main(url=args.get('url'))
