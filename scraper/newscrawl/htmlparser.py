@@ -1,4 +1,4 @@
-from newscrawl.spiders.general_spider import GeneralSpider
+from scraper.newscrawl.spiders.general_spider import GeneralSpider
 from scrapy.crawler import CrawlerProcess
 import argparse
 import pandas as pd
