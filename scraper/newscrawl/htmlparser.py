@@ -16,7 +16,7 @@ def main(url=None):
 
     process = CrawlerProcess(
         settings={
-            "FEEDS": {f"output/{domain.replace('.', '_')}.json": {"format": "json"}},
+            "FEEDS": {f"output/{domain.replace('.', '_')}.json": {"format": "json", "overwrite": True}},
         }
     )
 
