@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from uuid import uuid4
 import json
+from typing import List
 
 
 class BaseSummariser(ABC):
@@ -10,6 +11,7 @@ class BaseSummariser(ABC):
         all the text for that source and corresponding summary"""
 
         self.id = uuid4().int
+        self.filepath = file_path
         assert file_path.split(".")[-1] in ["json"], (
             "Summariser currently only accepts json files with a text field"
             "for each article"
@@ -22,21 +24,21 @@ class BaseSummariser(ABC):
 
     @staticmethod
     @abstractmethod
-    def prepare(raw_text: str):
+    def prepare(raw_text: str) -> (str, List[str]):
         """Each summariser model should have its own way of pre-processing text. It should take in a list of raw
         texts and return a list of pre-processed strings"""
         pass
 
     @staticmethod
     @abstractmethod
-    def summarise(processed_tokens):
+    def summarise(cleaned_text: str, tokens: List[str]) -> str:
         """Each summariser would implement its main summarisation logic in this function. It should take in a list of
         preprocessed strings and return a list of summarised strings"""
         pass
 
     @staticmethod
     @abstractmethod
-    def process(raw_text: str):
+    def process(raw_text: str) -> str:
         """The process method calls both summarise and prepare methods and returns the summarised text from raw text"""
         pass
 
