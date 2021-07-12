@@ -33,7 +33,7 @@ class BaseSummariser(ABC):
     @abstractmethod
     def summarise(cleaned_text: str, tokens: List[str]) -> str:
         """Each summariser would implement its main summarisation logic in this function. It should take in a list of
-        preprocessed strings and return a list of summarised strings"""
+        preprocessed tokens and return a list of summarised strings"""
         pass
 
     @staticmethod
